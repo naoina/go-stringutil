@@ -11,22 +11,21 @@ func ToUpperCamelCase(s string) string {
 	if s == "" {
 		return ""
 	}
-	result := make([]rune, 0, len(s))
-	upper := false
-	for _, r := range s {
-		if r == '_' {
+	upper := true
+	var result bytes.Buffer
+	for _, c := range s {
+		if c == '_' {
 			upper = true
 			continue
 		}
 		if upper {
-			result = append(result, unicode.ToUpper(r))
+			result.WriteRune(unicode.ToUpper(c))
 			upper = false
 			continue
 		}
-		result = append(result, r)
+		result.WriteRune(c)
 	}
-	result[0] = unicode.ToUpper(result[0])
-	return string(result)
+	return result.String()
 }
 
 // ToSnakeCase returns a copy of the string s with all Unicode letters mapped to their snake case.
