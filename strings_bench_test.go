@@ -14,6 +14,12 @@ func BenchmarkToUpperCamelCase(b *testing.B) {
 	}
 }
 
+func BenchmarkToUpperCamelCaseASCII(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		stringutil.ToUpperCamelCaseASCII(benchcaseForCamelCase)
+	}
+}
+
 var benchcaseForSnakeCase = "TheQuickBrownFoxJumpsOverTheLazyDog"
 
 func BenchmarkToSnakeCase(b *testing.B) {

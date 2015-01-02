@@ -28,6 +28,26 @@ func TestToUpperCamelCase(t *testing.T) {
 	}
 }
 
+func TestToUpperCamelCaseASCII(t *testing.T) {
+	for _, v := range []struct {
+		input, expect string
+	}{
+		{"", ""},
+		{"thequickbrownfoxoverthelazydog", "Thequickbrownfoxoverthelazydog"},
+		{"thequickbrownfoxoverthelazydoG", "ThequickbrownfoxoverthelazydoG"},
+		{"thequickbrownfoxoverthelazydo_g", "ThequickbrownfoxoverthelazydoG"},
+		{"TheQuickBrownFoxJumpsOverTheLazyDog", "TheQuickBrownFoxJumpsOverTheLazyDog"},
+		{"the_quick_brown_fox_jumps_over_the_lazy_dog", "TheQuickBrownFoxJumpsOverTheLazyDog"},
+		{"the_Quick_Brown_Fox_Jumps_Over_The_Lazy_Dog", "TheQuickBrownFoxJumpsOverTheLazyDog"},
+	} {
+		actual := stringutil.ToUpperCamelCaseASCII(v.input)
+		expect := v.expect
+		if !reflect.DeepEqual(actual, expect) {
+			t.Errorf(`stringutil.ToUpperCamelCaseASCII(%#v) => %#v; want %#v`, v.input, actual, expect)
+		}
+	}
+}
+
 func TestToSnakeCase(t *testing.T) {
 	for _, v := range []struct {
 		input, expect string

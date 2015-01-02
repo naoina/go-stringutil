@@ -28,6 +28,32 @@ func ToUpperCamelCase(s string) string {
 	return result.String()
 }
 
+// ToUpperCamelCaseASCII is similar to ToUpperCamelCase, but optimized for
+// only the ASCII characters.
+// ToUpperCamelCaseASCII is faster than ToUpperCamelCase, but doesn't work if
+// contains non-ASCII characters.
+func ToUpperCamelCaseASCII(s string) string {
+	if s == "" {
+		return ""
+	}
+	upper := true
+	result := make([]byte, 0, len(s))
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if c == '_' {
+			upper = true
+			continue
+		}
+		if upper {
+			result = append(result, toUpperASCII(c))
+			upper = false
+			continue
+		}
+		result = append(result, c)
+	}
+	return string(result)
+}
+
 // ToSnakeCase returns a copy of the string s with all Unicode letters mapped to their snake case.
 // It will insert letter of '_' at position of previous letter of uppercase and all
 // letters convert to lower case.
@@ -73,6 +99,17 @@ func ToSnakeCaseASCII(s string) string {
 
 func isUpperASCII(c byte) bool {
 	return 'A' <= c && c <= 'Z'
+}
+
+func isLowerASCII(c byte) bool {
+	return 'a' <= c && c <= 'z'
+}
+
+func toUpperASCII(c byte) byte {
+	if isLowerASCII(c) {
+		return c - ('a' - 'A')
+	}
+	return c
 }
 
 func toLowerASCII(c byte) byte {
