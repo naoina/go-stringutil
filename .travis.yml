@@ -6,4 +6,4 @@ go:
 install:
   - go get -v github.com/naoina/go-stringutil
 script:
-  - go test -v ./...
+  - go test -v ./... -bench . -benchmem
