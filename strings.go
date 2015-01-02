@@ -5,9 +5,9 @@ import (
 	"unicode"
 )
 
-// ToCamelCase returns a copy of the string s with all Unicode letters mapped to their camel case.
+// ToUpperCamelCase returns a copy of the string s with all Unicode letters mapped to their camel case.
 // It will convert to upper case previous letter of '_' and first letter, and remove letter of '_'.
-func ToCamelCase(s string) string {
+func ToUpperCamelCase(s string) string {
 	if s == "" {
 		return ""
 	}

@@ -8,9 +8,9 @@ import (
 
 var benchcaseForCamelCase = "the_quick_brown_fox_jumps_over_the_lazy_dog"
 
-func BenchmarkToCamelCase(b *testing.B) {
+func BenchmarkToUpperCamelCase(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		stringutil.ToCamelCase(benchcaseForCamelCase)
+		stringutil.ToUpperCamelCase(benchcaseForCamelCase)
 	}
 }
 
