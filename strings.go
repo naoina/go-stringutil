@@ -49,3 +49,36 @@ func ToSnakeCase(s string) string {
 	}
 	return s
 }
+
+// ToSnakeCaseASCII is similar to ToSnakeCase, but optimized for only the ASCII
+// characters.
+// ToSnakeCaseASCII is faster than ToSnakeCase, but doesn't work correctly if
+// contains non-ASCII characters.
+func ToSnakeCaseASCII(s string) string {
+	if s == "" {
+		return ""
+	}
+	result := make([]byte, 0, len(s))
+	for i := 0; i < len(s); i++ {
+		c := s[i]
+		if isUpperASCII(c) {
+			result = append(result, '_')
+		}
+		result = append(result, toLowerASCII(c))
+	}
+	if result[0] == '_' {
+		return string(result[1:])
+	}
+	return string(result)
+}
+
+func isUpperASCII(c byte) bool {
+	return 'A' <= c && c <= 'Z'
+}
+
+func toLowerASCII(c byte) byte {
+	if isUpperASCII(c) {
+		return c + 'a' - 'A'
+	}
+	return c
+}
