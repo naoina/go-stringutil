@@ -7,6 +7,27 @@ import (
 	"github.com/naoina/go-stringutil"
 )
 
+func TestToCamelCase(t *testing.T) {
+	for _, v := range []struct {
+		input, expect string
+	}{
+		{"", ""},
+		{"thequickbrownfoxoverthelazydog", "Thequickbrownfoxoverthelazydog"},
+		{"thequickbrownfoxoverthelazydoG", "ThequickbrownfoxoverthelazydoG"},
+		{"thequickbrownfoxoverthelazydo_g", "ThequickbrownfoxoverthelazydoG"},
+		{"TheQuickBrownFoxJumpsOverTheLazyDog", "TheQuickBrownFoxJumpsOverTheLazyDog"},
+		{"the_quick_brown_fox_jumps_over_the_lazy_dog", "TheQuickBrownFoxJumpsOverTheLazyDog"},
+		{"the_Quick_Brown_Fox_Jumps_Over_The_Lazy_Dog", "TheQuickBrownFoxJumpsOverTheLazyDog"},
+		{"ｔｈｅ_ｑｕｉｃｋ_ｂｒｏｗｎ_ｆｏｘ_ｏｖｅｒ_ｔｈｅ_ｌａｚｙ_ｄｏｇ", "ＴｈｅＱｕｉｃｋＢｒｏｗｎＦｏｘＯｖｅｒＴｈｅＬａｚｙＤｏｇ"},
+	} {
+		actual := stringutil.ToCamelCase(v.input)
+		expect := v.expect
+		if !reflect.DeepEqual(actual, expect) {
+			t.Errorf(`stringutil.ToCamelCase(%#v) => %#v; want %#v`, v.input, actual, expect)
+		}
+	}
+}
+
 func TestToSnakeCase(t *testing.T) {
 	for _, v := range []struct {
 		input, expect string
