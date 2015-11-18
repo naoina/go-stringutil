@@ -86,6 +86,23 @@ func (da *doubleArray) Lookup(path string) (length int) {
 	return -1
 }
 
+func (da *doubleArray) LookupByBytes(path []byte) (length int) {
+	idx := 1
+	tmpIdx := idx
+	for i := 0; i < len(path); i++ {
+		c := path[i]
+		tmpIdx = da.nextIndex(da.bc[tmpIdx].Base(), c)
+		if tmpIdx >= len(da.bc) || da.bc[tmpIdx].Check() != c {
+			break
+		}
+		idx = tmpIdx
+	}
+	if next := da.nextIndex(da.bc[idx].Base(), terminationCharacter); next < len(da.bc) && da.bc[next].Check() == terminationCharacter {
+		return da.node[da.bc[next].Base()]
+	}
+	return -1
+}
+
 func (da *doubleArray) build(srcs []record, idx, depth int, usedBase map[int]struct{}) error {
 	sort.Stable(recordSlice(srcs))
 	base, siblings, leaf, err := da.arrange(srcs, idx, depth, usedBase)

@@ -4,7 +4,6 @@ import (
 	"sync"
 	"unicode"
 	"unicode/utf8"
-	"unsafe"
 )
 
 var (
@@ -80,7 +79,7 @@ func ToUpperCamelCase(s string) string {
 					initialism = append(initialism, runeBuf[:n]...)
 				}
 			}
-			if length := commonInitialism.Lookup(*(*string)(unsafe.Pointer(&initialism))); length > 0 {
+			if length := commonInitialism.LookupByBytes(initialism); length > 0 {
 				result = append(result[:start], initialism...)
 			}
 			start = len(result)
@@ -113,7 +112,7 @@ func ToUpperCamelCase(s string) string {
 			initialism = append(initialism, runeBuf[:n]...)
 		}
 	}
-	if length := commonInitialism.Lookup(*(*string)(unsafe.Pointer(&initialism))); length > 0 {
+	if length := commonInitialism.LookupByBytes(initialism); length > 0 {
 		result = append(result[:start], initialism...)
 	}
 	return string(result)
@@ -140,7 +139,7 @@ func ToUpperCamelCaseASCII(s string) string {
 			for _, b := range candidate {
 				initialism = append(initialism, toUpperASCII(b))
 			}
-			if length := commonInitialism.Lookup(*(*string)(unsafe.Pointer(&initialism))); length > 0 {
+			if length := commonInitialism.LookupByBytes(initialism); length > 0 {
 				result = append(result[:start], initialism...)
 			}
 			start = len(result)
@@ -158,7 +157,7 @@ func ToUpperCamelCaseASCII(s string) string {
 	for _, b := range candidate {
 		initialism = append(initialism, toUpperASCII(b))
 	}
-	if length := commonInitialism.Lookup(*(*string)(unsafe.Pointer(&initialism))); length > 0 {
+	if length := commonInitialism.LookupByBytes(initialism); length > 0 {
 		result = append(result[:start], initialism...)
 	}
 	return string(result)
